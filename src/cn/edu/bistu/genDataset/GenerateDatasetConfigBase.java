@@ -14,9 +14,9 @@ public class GenerateDatasetConfigBase implements Serializable {
 	private volatile Properties properties = getGenerateDatasetProperties();
 
 	public static Properties getGenerateDatasetProperties() {
-		File propFile = getGenerateDatasetPropertiesFile(parameter.Generate_Dataset_CONF_PROPERTIES_PATH);
+		File propFile = getGenerateDatasetPropertiesFile(parameter.GENERATE_DATASET_CONF_PROPERTIES_PATH);
 		if (propFile == null || !propFile.exists()) {
-			throw new RuntimeException("fail to locate " + parameter.Generate_Dataset_CONF_PROPERTIES_FILE);
+			throw new RuntimeException("fail to locate " + parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
 		}
 		Properties conf = new Properties();
 		try {
@@ -38,7 +38,7 @@ public class GenerateDatasetConfigBase implements Serializable {
 		if (path == null) {
 			return null;
 		}
-		return new File(path, parameter.Generate_Dataset_CONF_PROPERTIES_FILE);
+		return new File(path, parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
 	}
 
 	protected String getOptional(String prop, String dft) {
