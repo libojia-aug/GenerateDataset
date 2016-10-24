@@ -1,4 +1,4 @@
-package cn.edu.bistu.spark.genDataset;
+package cn.edu.bistu.genDatasetSpark.genDataset;
 
 import java.io.Serializable;
 import cn.edu.bistu.genDataset.config.parameter;
