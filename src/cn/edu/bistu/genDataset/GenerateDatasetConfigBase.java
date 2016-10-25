@@ -180,33 +180,34 @@ public class GenerateDatasetConfigBase implements Serializable {
     }
 
     public double getDomain_hFileExtractFactor() {
-        return Double.parseDouble(getOptional("input.destination_address_iplbs_h.file.extract.factor"));
+        return Double.parseDouble(getOptional("input.domain_h.file.extract.factor"));
     }
 
     public double getDomain_lExtractFactor() {
-        return Double.parseDouble(getOptional("input.destination_address_iplbs_l.file.extract.factor"));
+        return Double.parseDouble(getOptional("input.domain_l.file.extract.factor"));
     }
 
     public int getDomain_hFileExtractCount() {
-        return Integer.parseInt(getOptional("input.destination_address_iplbs_h.file.extract.count"));
+        return Integer.parseInt(getOptional("input.domain_h.file.extract.count"));
     }
 
     public int getDomain_lFileExtractCount() {
-        return Integer.parseInt(getOptional("input.destination_address_iplbs_l.file.extract.count"));
+        return Integer.parseInt(getOptional("input.domain_l.file.extract.count"));
     }
+
     public double getUrl_hFileExtractFactor() {
-        return Double.parseDouble(getOptional("input.destination_address_iplbs_h.file.extract.factor"));
+        return Double.parseDouble(getOptional("input.url_h.file.extract.factor"));
     }
 
     public double getUrl_lFileExtractFactor() {
-        return Double.parseDouble(getOptional("input.destination_address_iplbs_l.file.extract.factor"));
+        return Double.parseDouble(getOptional("input.url_l.file.extract.factor"));
     }
 
     public int getUrl_hFileExtractCount() {
-        return Integer.parseInt(getOptional("input.destination_address_iplbs_h.file.extract.count"));
+        return Integer.parseInt(getOptional("input.url_h.file.extract.count"));
     }
 
     public int getUrl_lFileExtractCount() {
-        return Integer.parseInt(getOptional("input.destination_address_iplbs_l.file.extract.count"));
+        return Integer.parseInt(getOptional("input.url_l.file.extract.count"));
     }
 }

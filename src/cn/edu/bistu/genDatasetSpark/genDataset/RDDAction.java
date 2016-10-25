@@ -16,16 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 class RDDAction {
-    static PairFunction<Tuple2<String, Tuple2<String, String>>, String, String> removebracket = new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 1L;
 
-        public Tuple2<String, String> call(Tuple2<String, Tuple2<String, String>> arg0) throws Exception {
-            return new Tuple2<>(arg0._1, arg0._2._1 + parameter.SEPARATOR + arg0._2._2);
-        }
-    };
     private static SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
     private static JavaSparkContext sc = new JavaSparkContext(conf);
     private static GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
@@ -87,4 +78,15 @@ class RDDAction {
                     }
                 });
     }
+
+    static PairFunction<Tuple2<String, Tuple2<String, String>>, String, String> removebracket = new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        public Tuple2<String, String> call(Tuple2<String, Tuple2<String, String>> arg0) throws Exception {
+            return new Tuple2<>(arg0._1, arg0._2._1 + parameter.SEPARATOR + arg0._2._2);
+        }
+    };
 }

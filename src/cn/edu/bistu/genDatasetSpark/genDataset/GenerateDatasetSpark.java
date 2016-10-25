@@ -5,7 +5,6 @@ import cn.edu.bistu.genDataset.GenerateDatasetConfigBase;
 import cn.edu.bistu.genDataset.config.parameter;
 import cn.edu.bistu.utils.IPConvert;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 
 import java.sql.Timestamp;
@@ -22,7 +21,6 @@ public class GenerateDatasetSpark {
     private static final SimpleDateFormat formatYearMonth = new SimpleDateFormat(dateFormatYearMonth);
     private static final SimpleDateFormat formatDay = new SimpleDateFormat(dateFormatDay);
     private static final SimpleDateFormat formatHour = new SimpleDateFormat(dateFormatHour);
-    private static JavaSparkContext sc;
 
     public static void main(String[] args) throws Exception {
         long time = System.currentTimeMillis();
