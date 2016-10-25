@@ -7,8 +7,10 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.mllib.random.RandomRDDs;
 import scala.Tuple2;
 
 import java.util.ArrayList;
@@ -17,21 +19,32 @@ import java.util.List;
 
 class RDDAction {
 
+    static PairFunction<Tuple2<String, Tuple2<String, String>>, String, String> removebracket = new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        public Tuple2<String, String> call(Tuple2<String, Tuple2<String, String>> arg0) throws Exception {
+            return new Tuple2<>(arg0._1, arg0._2._1 + parameter.SEPARATOR + arg0._2._2);
+        }
+    };
     private static SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
     private static JavaSparkContext sc = new JavaSparkContext(conf);
     private static GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
 
-    static JavaRDD<String> loadRDD(String fileAddress, int hFileExtractCount) {
+    //    static JavaRDD<String> loadRDD(String fileAddress, int FileExtractCount) {
+    static List<String> loadRDD(String fileAddress, int FileExtractCount) {
         JavaRDD<String> inputDataset = sc.textFile(fileAddress);
 
-        List<String> inputDataset_hList = inputDataset.takeOrdered(hFileExtractCount);
+        List<String> inputDataset_List = inputDataset.takeOrdered(FileExtractCount);
 
-        JavaRDD<String> replaceRDD = inputDataset.subtract(sc.parallelize(inputDataset_hList))
+        JavaRDD<String> replaceRDD = inputDataset.subtract(sc.parallelize(inputDataset_List))
                 .flatMap(new FlatMapFunction<String, String>() {
                     public Iterable<String> call(String lines) throws Exception {
                         int offset = parameter.INT_ZORE;
                         List<String> listTemp = new ArrayList<>();
-                        if (Math.random() > (double) hFileExtractCount / offset) {
+                        if (Math.random() > (double) FileExtractCount / offset) {
                             listTemp.add(lines);
                         }
                         return listTemp;
@@ -42,16 +55,30 @@ class RDDAction {
         int replaceLength = replace.size();
         for (int i = 0; i < replaceLength; i++) {
             int offset = (int) Math.random() * replaceLength;
-            inputDataset_hList.remove(offset);
-            inputDataset_hList.add(offset, replace.get(i));
+            inputDataset_List.remove(offset);
+            inputDataset_List.add(offset, replace.get(i));
         }
-        return sc.parallelize(inputDataset_hList);
+//        return sc.parallelize(inputDataset_List);
+        return inputDataset_List;
     }
 
-    static JavaPairRDD<String, String> JavamergeData(JavaRDD<String> rdd_h, JavaRDD<String> rdd_l, int count_h,
+    //    static JavaPairRDD<String, String> JavamergeData(JavaRDD<String> rdd_h, JavaRDD<String> rdd_l, int count_h,
+//                                                     int count, int slices) {
+    static JavaPairRDD<String, String> JavamergeData(List<String> rdd_h, List<String> rdd_l, int count_h,
                                                      int count, int slices) {
-        return sc.parallelize(rdd_h.takeSample(false, count_h), slices)
-                .union(sc.parallelize(rdd_l.takeSample(false, count - count_h), slices))
+        return RandomRDDs.uniformJavaRDD(sc, count_h)
+                .map(new Function<Double, String>() {
+                    public String call(Double d) {
+                        Double a = ((double) count_h) * d;
+                        return rdd_h.get(a.intValue());
+                    }
+                }).union(RandomRDDs.uniformJavaRDD(sc, count_h)
+                        .map(new Function<Double, String>() {
+                            public String call(Double d) {
+                                Double a = ((double) count_h) * d;
+                                return rdd_h.get(a.intValue());
+                            }
+                        }))
                 .mapPartitionsWithIndex(new Function2<Integer, Iterator<String>, Iterator<String>>() {
                     /**
                      *
@@ -78,15 +105,4 @@ class RDDAction {
                     }
                 });
     }
-
-    static PairFunction<Tuple2<String, Tuple2<String, String>>, String, String> removebracket = new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 1L;
-
-        public Tuple2<String, String> call(Tuple2<String, Tuple2<String, String>> arg0) throws Exception {
-            return new Tuple2<>(arg0._1, arg0._2._1 + parameter.SEPARATOR + arg0._2._2);
-        }
-    };
 }

@@ -4,12 +4,12 @@ import cn.edu.bistu.genDataset.GenerateDataset;
 import cn.edu.bistu.genDataset.GenerateDatasetConfigBase;
 import cn.edu.bistu.genDataset.config.parameter;
 import cn.edu.bistu.utils.IPConvert;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Berger_LBJ
@@ -27,14 +27,23 @@ public class GenerateDatasetSpark {
         GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
 
         // 声明数据集
-        JavaRDD<String> sourceIp_h = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
-        JavaRDD<String> sourceIp_l = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
-        JavaRDD<String> destinationIp_h = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
-        JavaRDD<String> destinationIp_l = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_lFileExtractCount());
-        JavaRDD<String> domain_h = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_hFileExtractCount());
-        JavaRDD<String> domain_l = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_lFileExtractCount());
-        JavaRDD<String> url_h = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_hFileExtractCount());
-        JavaRDD<String> url_l = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_lFileExtractCount());
+//        JavaRDD<String> sourceIp_h = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
+//        JavaRDD<String> sourceIp_l = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
+//        JavaRDD<String> destinationIp_h = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
+//        JavaRDD<String> destinationIp_l = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_lFileExtractCount());
+//        JavaRDD<String> domain_h = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_hFileExtractCount());
+//        JavaRDD<String> domain_l = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_lFileExtractCount());
+//        JavaRDD<String> url_h = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_hFileExtractCount());
+//        JavaRDD<String> url_l = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_lFileExtractCount());
+
+        List<String> sourceIp_h = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
+        List<String> sourceIp_l = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
+        List<String> destinationIp_h = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
+        List<String> destinationIp_l = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_lFileExtractCount());
+        List<String> domain_h = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_hFileExtractCount());
+        List<String> domain_l = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_lFileExtractCount());
+        List<String> url_h = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_hFileExtractCount());
+        List<String> url_l = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_lFileExtractCount());
 
         int count = config.getCount();
         int slices = config.getSlices();
