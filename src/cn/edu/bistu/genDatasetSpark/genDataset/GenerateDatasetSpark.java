@@ -8,6 +8,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
@@ -36,18 +37,15 @@ public class GenerateDatasetSpark {
         long time = System.currentTimeMillis();
         GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
 
-        SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
-        sc = new JavaSparkContext(conf);
-
         // 声明数据集
-        JavaRDD<String> sourceIp_h = sc.textFile(config.getSourceAddressIplbsFile_h());
-        JavaRDD<String> sourceIp_l = sc.textFile(config.getSourceAddressIplbsFile_l());
-        JavaRDD<String> destinationIp_h = sc.textFile(config.getDestinationAddressIplbsFile_h());
-        JavaRDD<String> destinationIp_l = sc.textFile(config.getDestinationAddressIplbsFile_l());
-        JavaRDD<String> domain_h = sc.textFile(config.getDomainFile_h());
-        JavaRDD<String> domain_l = sc.textFile(config.getDomainFile_l());
-        JavaRDD<String> url_h = sc.textFile(config.getUrlFile_h());
-        JavaRDD<String> url_l = sc.textFile(config.getUrlFile_l());
+        JavaRDD<String> sourceIp_h = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
+        JavaRDD<String> sourceIp_l = RDDAction.loadRDD(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
+        JavaRDD<String> destinationIp_h = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
+        JavaRDD<String> destinationIp_l = RDDAction.loadRDD(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_lFileExtractCount());
+        JavaRDD<String> domain_h = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_hFileExtractCount());
+        JavaRDD<String> domain_l = RDDAction.loadRDD(config.getDomainFile(), config.getDomain_lFileExtractCount());
+        JavaRDD<String> url_h = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_hFileExtractCount());
+        JavaRDD<String> url_l = RDDAction.loadRDD(config.getUrlFile(), config.getUrl_lFileExtractCount());
 
         int count = config.getCount();
         int slices = config.getSlices();
