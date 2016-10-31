@@ -20,12 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 class RDDAction {
-    public static Logger logger=Logger.getLogger("action");
-
-    private static SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
-    private static JavaSparkContext sc = new JavaSparkContext(conf);
-    private static GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
-
+    public static Logger logger = Logger.getLogger("action");
     static PairFunction<Tuple2<String, Tuple2<String, String>>, String, String> removebracket = new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
         /**
          *
@@ -36,31 +31,35 @@ class RDDAction {
             return new Tuple2<>(arg0._1, arg0._2._1 + parameter.SEPARATOR + arg0._2._2);
         }
     };
+    private static SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
+    private static JavaSparkContext sc = new JavaSparkContext(conf);
+    private static GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
+    private static int offset = parameter.INT_ZORE;
 
-    static Broadcast<List<String>> loadBroadcast(String fileAddress, int FileExtractCount) {
+    static Broadcast<List<String>> loadBroadcast(String fileAddress, int fileExtractCount) {
         JavaRDD<String> inputDataset = sc.textFile(fileAddress);
 
-        List<String> inputDataset_List = inputDataset.takeOrdered(FileExtractCount);
+        List<String> inputDataset_List = inputDataset.takeOrdered(fileExtractCount);
 
         JavaRDD<String> replaceRDD = inputDataset.subtract(sc.parallelize(inputDataset_List))
                 .flatMap(new FlatMapFunction<String, String>() {
                     public Iterable<String> call(String lines) throws Exception {
-                        int offset = parameter.INT_ZORE;
                         List<String> listTemp = new ArrayList<>();
-                        if (Math.random() > (double) FileExtractCount / offset) {
+                        if (Math.random() > (double) fileExtractCount / offset) {
                             listTemp.add(lines);
                         }
+                        offset++;
                         return listTemp;
                     }
                 });
 
         List<String> replace = replaceRDD.toArray();
-        int replaceLength = replace.size();
-        for (int i = 0; i < replaceLength; i++) {
-            int offset = (int) Math.random() * replaceLength;
+        for (int i = 0; i < replace.size(); i++) {
+            int offset = (int) (Math.random() * inputDataset_List.size());
             inputDataset_List.remove(offset);
             inputDataset_List.add(offset, replace.get(i));
         }
+        logger.info(inputDataset_List);
         return sc.broadcast(inputDataset_List);
     }
 
@@ -75,7 +74,7 @@ class RDDAction {
                 }).union(RandomRDDs.uniformJavaRDD(sc, count - count_h)
                         .map(new Function<Double, String>() {
                             public String call(Double d) {
-                                Double a = ((double)BList_l.value().size()) * d;
+                                Double a = ((double) BList_l.value().size()) * d;
                                 return BList_l.value().get(a.intValue());
                             }
                         }))

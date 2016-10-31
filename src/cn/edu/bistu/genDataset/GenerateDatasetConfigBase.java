@@ -79,6 +79,10 @@ public class GenerateDatasetConfigBase implements Serializable {
         return getOptional("output.path");
     }
 
+    public String getTestOutputPath() {
+        return getOptional("test.output.path");
+    }
+
     public String getOutputFile() {
         return getOptional("output.file");
     }
