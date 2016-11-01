@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d20dcaf-43e9-4475-9c6a-388c3536d054" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-    </list>
+    <list default="true" id="4d20dcaf-43e9-4475-9c6a-388c3536d054" name="Default" comment="" />
     <ignored path="GenerateDataset.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -23,7 +21,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="datasetTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="datasetTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/test/datasetTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="626">
@@ -31,16 +29,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -593,12 +581,12 @@
       <workItem from="1477537003353" duration="1352000" />
       <workItem from="1477879992732" duration="21749000" />
       <workItem from="1477958615137" duration="456000" />
-      <workItem from="1477960551769" duration="15000" />
+      <workItem from="1477960551769" duration="164000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58729000" />
+    <option name="totallyTimeSpent" value="58878000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="23" width="1234" height="777" extended-state="6" />
@@ -871,6 +859,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
           <caret line="119" column="25" selection-start-line="119" selection-start-column="25" selection-end-line="119" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -949,6 +938,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/test/datasetTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="626">
@@ -956,14 +953,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
