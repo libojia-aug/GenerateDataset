@@ -4,3 +4,4 @@ spark/
 .DS_Store
 log/
 testoutput/
+.idea/
