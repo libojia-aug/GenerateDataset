@@ -24,7 +24,7 @@ public class datasetTest {
     private static SparkConf conf = new SparkConf().setAppName("generateDataset").setMaster("local");
     private static JavaSparkContext sc = new JavaSparkContext(conf);
 
-    private static JavaPairRDD<Integer, String> count(JavaRDD<String> words){
+    private static JavaPairRDD<String, Integer> count(JavaRDD<String> words){
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
             private static final long serialVersionUID = 1L;
 
@@ -43,16 +43,23 @@ public class datasetTest {
             }
         });
 
-        JavaPairRDD<Integer, String> swappedPair = counts.mapToPair(new PairFunction<Tuple2<String, Integer>, Integer, String>() {
+        JavaPairRDD<Integer, String> swappedPair1 = counts.mapToPair(new PairFunction<Tuple2<String, Integer>, Integer, String>() {
             @Override
             public Tuple2<Integer, String> call(Tuple2<String, Integer> item) throws Exception {
                 return item.swap();
             }
 
         });
-        return swappedPair.sortByKey(false);
+        JavaPairRDD<String, Integer> swappedPair2 = swappedPair1.sortByKey(false).mapToPair(new PairFunction<Tuple2<Integer, String>, String, Integer>() {
+            @Override
+            public Tuple2<String, Integer> call(Tuple2<Integer, String> item) throws Exception {
+                return item.swap();
+            }
+
+        });
+        return swappedPair2;
     }
-    private static JavaPairRDD<Integer, String> ipCount(JavaRDD<String> words){
+    private static JavaPairRDD<String, Integer> ipCount(JavaRDD<String> words){
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
             private static final long serialVersionUID = 1L;
 
@@ -71,7 +78,7 @@ public class datasetTest {
             }
         });
 
-        JavaPairRDD<Integer, String> swappedPair = counts.mapToPair(new PairFunction<Tuple2<String, Integer>, Integer, String>() {
+        JavaPairRDD<Integer, String> swappedPair1 = counts.mapToPair(new PairFunction<Tuple2<String, Integer>, Integer, String>() {
             @Override
             public Tuple2<Integer, String> call(Tuple2<String, Integer> item) throws Exception {
                 IPConvert ipConvert = new IPConvert();
@@ -79,7 +86,14 @@ public class datasetTest {
             }
 
         });
-        return swappedPair.sortByKey(false);
+        JavaPairRDD<String, Integer> swappedPair2 = swappedPair1.sortByKey(false).mapToPair(new PairFunction<Tuple2<Integer, String>, String, Integer>() {
+            @Override
+            public Tuple2<String, Integer> call(Tuple2<Integer, String> item) throws Exception {
+                return item.swap();
+            }
+
+        });
+        return swappedPair2;
     }
     public static void main(String[] args) throws Exception {
 
