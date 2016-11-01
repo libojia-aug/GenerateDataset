@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
 
+//基础配置读取
 public class GenerateDatasetConfigBase implements Serializable {
 
     private volatile Properties properties = getGenerateDatasetProperties();

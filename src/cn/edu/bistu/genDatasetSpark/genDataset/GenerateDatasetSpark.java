@@ -24,14 +24,15 @@ public class GenerateDatasetSpark {
     private static final SimpleDateFormat formatYearMonth = new SimpleDateFormat(dateFormatYearMonth);
     private static final SimpleDateFormat formatDay = new SimpleDateFormat(dateFormatDay);
     private static final SimpleDateFormat formatHour = new SimpleDateFormat(dateFormatHour);
-
-    public static Logger logger=Logger.getLogger("main");
+    // log
+    public static Logger logger = Logger.getLogger("main");
 
     public static void main(String[] args) throws Exception {
         long time = System.currentTimeMillis();
         logger.info("Start: " + time);
+        // 调用配置文件
         GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
-
+        // 生成高频低频广播变量
         Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
         Broadcast<List<String>> sourceIp_l = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
         Broadcast<List<String>> destinationIp_h = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
@@ -40,15 +41,16 @@ public class GenerateDatasetSpark {
         Broadcast<List<String>> domain_l = RDDAction.loadBroadcast(config.getDomainFile(), config.getDomain_lFileExtractCount());
         Broadcast<List<String>> url_h = RDDAction.loadBroadcast(config.getUrlFile(), config.getUrl_hFileExtractCount());
         Broadcast<List<String>> url_l = RDDAction.loadBroadcast(config.getUrlFile(), config.getUrl_lFileExtractCount());
-
+        // 获取生成总数
         int count = config.getCount();
+        // 分片数
         int slices = config.getSlices();
-
+        // 相应集合高频数
         int sourceIpCount_h = (int) (count * config.getSourceAddressIplbsFactor());
         int destinationIpCount_h = (int) (count * config.getDestinationAddressIplbsFactor());
         int domainCount_h = (int) (count * config.getDomainFactor());
         int urlCount_h = (int) (count * config.getUrlFactor());
-
+        // 生成数据，高低频数据集整合、去括号
         RDDAction.JavamergeData(sourceIp_h, sourceIp_l, sourceIpCount_h, count, slices)
                 .join(RDDAction.JavamergeData(destinationIp_h, destinationIp_l, destinationIpCount_h, count, slices))
                 .mapToPair(RDDAction.removebracket).join(RDDAction.JavamergeData(domain_h, domain_l, domainCount_h, count, slices))
