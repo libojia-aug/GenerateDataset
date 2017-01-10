@@ -27,22 +27,40 @@ public class GenerateDatasetSpark {
     // log
     public static Logger logger = Logger.getLogger("main");
 
+    private static int getExtractCount(double factor, int count) {
+        int i;
+        for (i = 1; i < count; i++) {
+            double countTemp = i * factor;
+            if (countTemp == (int) countTemp) {
+                break;
+            }
+        }
+        return count / i;
+    }
+
     public static void main(String[] args) throws Exception {
         long time = System.currentTimeMillis();
         logger.info("Start: " + time);
+
         // 调用配置文件
         GenerateDatasetConfigBase config = new GenerateDatasetConfigBase();
-        // 生成高频低频广播变量
-        Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile(), config.getSourceIplbs_hFileExtractCount());
-        Broadcast<List<String>> sourceIp_l = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile(), config.getSourceIplbs_lFileExtractCount());
-        Broadcast<List<String>> destinationIp_h = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_hFileExtractCount());
-        Broadcast<List<String>> destinationIp_l = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile(), config.getDestinationIplbs_lFileExtractCount());
-        Broadcast<List<String>> domain_h = RDDAction.loadBroadcast(config.getDomainFile(), config.getDomain_hFileExtractCount());
-        Broadcast<List<String>> domain_l = RDDAction.loadBroadcast(config.getDomainFile(), config.getDomain_lFileExtractCount());
-        Broadcast<List<String>> url_h = RDDAction.loadBroadcast(config.getUrlFile(), config.getUrl_hFileExtractCount());
-        Broadcast<List<String>> url_l = RDDAction.loadBroadcast(config.getUrlFile(), config.getUrl_lFileExtractCount());
         // 获取生成总数
         int count = config.getCount();
+
+        int sourceIpExtractCount = getExtractCount(config.getSourceAddressIplbsFactor(), count);
+        int destinationIpExtractCount = getExtractCount(config.getDestinationAddressIplbsFactor(), count);
+        int domainExtractCount = getExtractCount(config.getDomainFactor(), count);
+        int urlExtractCount = getExtractCount(config.getUrlFactor(), count);
+        // 生成高频低频广播变量
+        Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile_h(), sourceIpExtractCount);
+        Broadcast<List<String>> sourceIp_l = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile_l(), count - sourceIpExtractCount);
+        Broadcast<List<String>> destinationIp_h = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile_h(), destinationIpExtractCount);
+        Broadcast<List<String>> destinationIp_l = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile_l(), count - destinationIpExtractCount);
+        Broadcast<List<String>> domain_h = RDDAction.loadBroadcast(config.getDomainFile_h(), domainExtractCount);
+        Broadcast<List<String>> domain_l = RDDAction.loadBroadcast(config.getDomainFile_l(), count - domainExtractCount);
+        Broadcast<List<String>> url_h = RDDAction.loadBroadcast(config.getUrlFile_h(), urlExtractCount);
+        Broadcast<List<String>> url_l = RDDAction.loadBroadcast(config.getUrlFile_l(), count - urlExtractCount);
+
         // 分片数
         int slices = config.getSlices();
         // 相应集合高频数
