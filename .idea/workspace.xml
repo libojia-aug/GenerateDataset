@@ -6,33 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5729660-4c12-4f0b-b7da-788ca0a3948f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/GenerateDataset_jar/GenerateDataset.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/._SUCCESS.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/.part-00000.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/.part-00001.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/_SUCCESS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/part-00000" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/dip/part-00001" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/._SUCCESS.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/.part-00000.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/.part-00001.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/_SUCCESS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/part-00000" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/domain/part-00001" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/._SUCCESS.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/.part-00000.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/.part-00001.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/_SUCCESS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/part-00000" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/sip/part-00001" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/._SUCCESS.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/.part-00000.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/.part-00001.crc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/_SUCCESS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/part-00000" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output_test/url/part-00001" afterPath="" />
-    </list>
+    <list default="true" id="c5729660-4c12-4f0b-b7da-788ca0a3948f" name="Default" comment="" />
     <ignored path="GenerateDataset.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -60,43 +34,6 @@
               <caret line="66" column="74" selection-start-line="66" selection-start-column="74" selection-end-line="66" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IPSection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/utils/IPSection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1065">
-              <caret line="98" column="34" selection-start-line="98" selection-start-column="34" selection-end-line="98" selection-end-column="34" />
-              <folding>
-                <element signature="n#!!doc" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#406#407#0" expanded="false" />
-                <element signature="e#444#445#0" expanded="false" />
-                <element signature="e#659#660#0" expanded="false" />
-                <element signature="e#678#679#0" expanded="false" />
-                <element signature="e#714#715#0" expanded="false" />
-                <element signature="e#739#740#0" expanded="false" />
-                <element signature="e#765#766#0" expanded="false" />
-                <element signature="e#782#783#0" expanded="false" />
-                <element signature="e#814#815#0" expanded="false" />
-                <element signature="e#835#836#0" expanded="false" />
-                <element signature="e#863#864#0" expanded="false" />
-                <element signature="e#882#883#0" expanded="false" />
-                <element signature="e#920#921#0" expanded="false" />
-                <element signature="e#945#946#0" expanded="false" />
-                <element signature="e#1354#1355#0" expanded="false" />
-                <element signature="e#1374#1375#0" expanded="false" />
-                <element signature="e#1411#1412#0" expanded="false" />
-                <element signature="e#1438#1439#0" expanded="false" />
-                <element signature="e#1479#1480#0" expanded="false" />
-                <element signature="e#1536#1537#0" expanded="false" />
-                <element signature="e#1579#1580#0" expanded="false" />
-                <element signature="e#1615#1616#0" expanded="false" />
-                <element signature="e#1704#1705#0" expanded="false" />
-                <element signature="e#1742#1743#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -134,7 +71,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateDatasetConfigBase.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GenerateDatasetConfigBase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/genDataset/GenerateDatasetConfigBase.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
@@ -142,6 +79,16 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -802,12 +749,12 @@
       <workItem from="1495021779544" duration="6679000" />
       <workItem from="1495588579022" duration="3459000" />
       <workItem from="1495592292454" duration="6036000" />
-      <workItem from="1495677655457" duration="5962000" />
+      <workItem from="1495677655457" duration="6048000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43345000" />
+    <option name="totallyTimeSpent" value="43431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="95" y="23" width="1386" height="877" extended-state="0" />
@@ -858,14 +805,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/genDatasetSpark/genDataset/GenerateDataBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cn/edu/bistu/genDataset/config/parameter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -1259,6 +1198,14 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
