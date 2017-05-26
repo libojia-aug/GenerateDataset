@@ -3,5 +3,6 @@ bin/
 spark/
 .DS_Store
 log/
-testoutput/
+output_test/
+out/
 .idea/
