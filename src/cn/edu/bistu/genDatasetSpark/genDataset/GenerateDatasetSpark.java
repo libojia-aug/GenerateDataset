@@ -5,9 +5,12 @@ import cn.edu.bistu.genDataset.GenerateDatasetConfigBase;
 import cn.edu.bistu.genDataset.config.parameter;
 import cn.edu.bistu.utils.IPConvert;
 import org.apache.log4j.Logger;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.broadcast.Broadcast;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +20,7 @@ import java.util.List;
 /**
  * @author Berger_LBJ
  */
-public class GenerateDatasetSpark {
+public class GenerateDatasetSpark implements Serializable {
     private static final String dateFormatYearMonth = "yyyy-MM";
     private static final String dateFormatDay = "yyyy-MM-dd";
     private static final String dateFormatHour = "hh";
@@ -51,15 +54,18 @@ public class GenerateDatasetSpark {
         int destinationIpExtractCount = getExtractCount(config.getDestinationAddressIplbsFactor(), count);
         int domainExtractCount = getExtractCount(config.getDomainFactor(), count);
         int urlExtractCount = getExtractCount(config.getUrlFactor(), count);
+        RDDAction RDDAction = new RDDAction();
+        SparkConf conf = new SparkConf().setAppName("generateDataset");
+        JavaSparkContext sc = new JavaSparkContext(conf);
         // 生成高频低频广播变量
-        Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile_h(), sourceIpExtractCount);
-        Broadcast<List<String>> sourceIp_l = RDDAction.loadBroadcast(config.getSourceAddressIplbsFile_l(), count - sourceIpExtractCount);
-        Broadcast<List<String>> destinationIp_h = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile_h(), destinationIpExtractCount);
-        Broadcast<List<String>> destinationIp_l = RDDAction.loadBroadcast(config.getDestinationAddressIplbsFile_l(), count - destinationIpExtractCount);
-        Broadcast<List<String>> domain_h = RDDAction.loadBroadcast(config.getDomainFile_h(), domainExtractCount);
-        Broadcast<List<String>> domain_l = RDDAction.loadBroadcast(config.getDomainFile_l(), count - domainExtractCount);
-        Broadcast<List<String>> url_h = RDDAction.loadBroadcast(config.getUrlFile_h(), urlExtractCount);
-        Broadcast<List<String>> url_l = RDDAction.loadBroadcast(config.getUrlFile_l(), count - urlExtractCount);
+        Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(sc, config.getSourceAddressIplbsFile_h(), sourceIpExtractCount);
+        Broadcast<List<String>> sourceIp_l = RDDAction.loadBroadcast(sc, config.getSourceAddressIplbsFile_l(), count - sourceIpExtractCount);
+        Broadcast<List<String>> destinationIp_h = RDDAction.loadBroadcast(sc, config.getDestinationAddressIplbsFile_h(), destinationIpExtractCount);
+        Broadcast<List<String>> destinationIp_l = RDDAction.loadBroadcast(sc, config.getDestinationAddressIplbsFile_l(), count - destinationIpExtractCount);
+        Broadcast<List<String>> domain_h = RDDAction.loadBroadcast(sc, config.getDomainFile_h(), domainExtractCount);
+        Broadcast<List<String>> domain_l = RDDAction.loadBroadcast(sc, config.getDomainFile_l(), count - domainExtractCount);
+        Broadcast<List<String>> url_h = RDDAction.loadBroadcast(sc, config.getUrlFile_h(), urlExtractCount);
+        Broadcast<List<String>> url_l = RDDAction.loadBroadcast(sc, config.getUrlFile_l(), count - urlExtractCount);
 
         // 分片数
         int slices = config.getSlices();
@@ -69,10 +75,10 @@ public class GenerateDatasetSpark {
         int domainCount_h = (int) (count * config.getDomainFactor());
         int urlCount_h = (int) (count * config.getUrlFactor());
         // 生成数据，高低频数据集整合、去括号
-        RDDAction.JavamergeData(sourceIp_h, sourceIp_l, sourceIpCount_h, count, slices)
-                .join(RDDAction.JavamergeData(destinationIp_h, destinationIp_l, destinationIpCount_h, count, slices))
-                .mapToPair(RDDAction.removebracket).join(RDDAction.JavamergeData(domain_h, domain_l, domainCount_h, count, slices))
-                .mapToPair(RDDAction.removebracket).join(RDDAction.JavamergeData(url_h, url_l, urlCount_h, count, slices))
+        RDDAction.JavamergeData(sc, sourceIp_h, sourceIp_l, sourceIpCount_h, count, slices)
+                .join(RDDAction.JavamergeData(sc, destinationIp_h, destinationIp_l, destinationIpCount_h, count, slices))
+                .mapToPair(RDDAction.removebracket).join(RDDAction.JavamergeData(sc, domain_h, domain_l, domainCount_h, count, slices))
+                .mapToPair(RDDAction.removebracket).join(RDDAction.JavamergeData(sc, url_h, url_l, urlCount_h, count, slices))
                 .mapToPair(RDDAction.removebracket).values().map(new Function<String, String>() {
             /**
              *

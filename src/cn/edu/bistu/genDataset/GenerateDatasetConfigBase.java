@@ -2,9 +2,11 @@ package cn.edu.bistu.genDataset;
 
 import cn.edu.bistu.genDataset.config.parameter;
 import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
@@ -15,27 +17,22 @@ public class GenerateDatasetConfigBase implements Serializable {
     private volatile Properties properties = getGenerateDatasetProperties();
 
     public static Properties getGenerateDatasetProperties() {
-        File propFile = getGenerateDatasetPropertiesFile(parameter.GENERATE_DATASET_CONF_PROPERTIES_PATH);
-        if (propFile == null || !propFile.exists()) {
-            throw new RuntimeException("fail to locate " + parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
-        }
-        Properties conf = new Properties();
+        Properties conf1 = new Properties();
         try {
-            FileInputStream fileInputStream = new FileInputStream(propFile);
-            conf.load(fileInputStream);
-            IOUtils.closeQuietly(fileInputStream);
+
+            Configuration conf = new Configuration();
+            FileSystem fs = FileSystem.get(conf);
+            Path path = new Path(parameter.GENERATE_DATASET_CONF_PROPERTIES_PATH + parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
+            if (!fs.exists(path)) {
+                throw new RuntimeException("fail to locate " + parameter.GENERATE_DATASET_CONF_PROPERTIES_PATH + parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
+            }
+            FSDataInputStream is = fs.open(path);
+            conf1.load(is);
+            IOUtils.closeQuietly(is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return conf;
-    }
-
-    private static File getGenerateDatasetPropertiesFile(String path) {
-        if (path == null) {
-            return null;
-        }
-        return new File(path, parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
+        return conf1;
     }
 
     final protected String getOptional(String prop) {
