@@ -41,10 +41,10 @@ public class GenerateDataset {
     }
 
     public static String generateNumber(double[] discontinuityPoints, double[] distributions, double accuracy) {
-        int digitalPoint = (int) (Math.random() * 100);
-        int distributiontemp = 0;
-        int distributionOffset = 0;
-        for (int i = 0; i <= distributions.length; i++) {
+        double digitalPoint = Math.random();
+        Double distributiontemp = parameter.DOUBLE_ZORE;
+        int distributionOffset = parameter.INT_ZORE;
+        for (int i = 0; i < distributions.length; i++) {
             distributiontemp += distributions[i];
             if (digitalPoint < distributiontemp) {
                 distributionOffset = i;

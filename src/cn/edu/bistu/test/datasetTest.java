@@ -13,7 +13,9 @@ import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import scala.Tuple2;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by libojia on 16/10/31.
@@ -97,9 +99,38 @@ public class datasetTest {
         return swappedPair2;
     }
 
+    private static JavaPairRDD<String, Integer> timeCount(JavaRDD<String> words) {
+        JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Tuple2<String, Integer> call(String s) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+                long lt = new Long(s);
+                Date date = new Date(lt);
+                return new Tuple2<>(simpleDateFormat.format(date), 1);
+            }
+        });
+
+        JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Integer call(Integer i1, Integer i2) {
+                return i1 + i2;
+            }
+        });
+        return counts.sortByKey();
+    }
+
     public static void main(String[] args) throws Exception {
 
         JavaRDD<String> lines = sc.textFile(config.getOutputPath(), 1);
+
+        JavaRDD<String> timeStamp = lines.map(new Function<String, String>() {
+            @Override
+            public String call(String s) throws Exception {
+                return (s.split(parameter.SEPARATOR))[0];
+            }
+        });
 
         JavaRDD<String> sIp = lines.map(new Function<String, String>() {
             @Override
@@ -128,9 +159,10 @@ public class datasetTest {
             }
         });
 
-        ipCount(sIp).saveAsTextFile(config.getTestOutputPath() + "/sip");
-        ipCount(dIp).saveAsTextFile(config.getTestOutputPath() + "/dip");
-        count(domain).saveAsTextFile(config.getTestOutputPath() + "/domain");
-        count(url).saveAsTextFile(config.getTestOutputPath() + "/url");
+        timeCount(timeStamp).coalesce(1,true).saveAsTextFile(config.getTestOutputPath() + "/time");
+        ipCount(sIp).coalesce(1,true).saveAsTextFile(config.getTestOutputPath() + "/sip");
+        ipCount(dIp).coalesce(1,true).saveAsTextFile(config.getTestOutputPath() + "/dip");
+        count(domain).coalesce(1,true).saveAsTextFile(config.getTestOutputPath() + "/domain");
+        count(url).coalesce(1,true).saveAsTextFile(config.getTestOutputPath() + "/url");
     }
 }

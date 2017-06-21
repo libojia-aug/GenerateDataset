@@ -4,6 +4,7 @@ import cn.edu.bistu.genDataset.GenerateDataset;
 import cn.edu.bistu.genDataset.GenerateDatasetConfigBase;
 import cn.edu.bistu.genDataset.config.parameter;
 import cn.edu.bistu.utils.IPConvert;
+
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -55,7 +56,8 @@ public class GenerateDatasetSpark implements Serializable {
         int domainExtractCount = getExtractCount(config.getDomainFactor(), count);
         int urlExtractCount = getExtractCount(config.getUrlFactor(), count);
         RDDAction RDDAction = new RDDAction();
-        SparkConf conf = new SparkConf().setAppName("generateDataset");
+        SparkConf conf = new SparkConf().setAppName("generateDataset")
+                .setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         // 生成高频低频广播变量
         Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(sc, config.getSourceAddressIplbsFile_h(), sourceIpExtractCount);
