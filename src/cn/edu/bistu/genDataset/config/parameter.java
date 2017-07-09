@@ -1,9 +1,10 @@
 package cn.edu.bistu.genDataset.config;
 
 public class parameter {
-//	public static final String GENERATE_DATASET_CONF_PROPERTIES_PATH = "hdfs://master:54310/lbj/generateData/input/";
-	public static final String GENERATE_DATASET_CONF_PROPERTIES_PATH = "./config/";
-	public static final String GENERATE_DATASET_CONF_PROPERTIES_FILE = "GenerateDatasetConfig_local.properties";
+	//	public static final String GENERATE_DATASET_CONF_PROPERTIES_PATH = "./config/";
+	// 	public static final String GENERATE_DATASET_CONF_PROPERTIES_FILE = "GenerateDatasetConfig_local.properties";
+	public static final String GENERATE_DATASET_CONF_PROPERTIES_PATH = "hdfs://master:54310/lbj/generateData/input/";
+    public static final String GENERATE_DATASET_CONF_PROPERTIES_FILE = "GenerateDatasetConfig.properties";
 	public static final String OUTPUT_FILE_NAME = "number";
 	public static final String SEPARATOR = "\t";
 	public static final String COMMA = ",";

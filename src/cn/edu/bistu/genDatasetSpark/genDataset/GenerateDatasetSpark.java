@@ -22,12 +22,9 @@ import java.util.List;
  * @author Berger_LBJ
  */
 public class GenerateDatasetSpark implements Serializable {
-    private static final String dateFormatYearMonth = "yyyy-MM";
-    private static final String dateFormatDay = "yyyy-MM-dd";
-    private static final String dateFormatHour = "hh";
-    private static final SimpleDateFormat formatYearMonth = new SimpleDateFormat(dateFormatYearMonth);
-    private static final SimpleDateFormat formatDay = new SimpleDateFormat(dateFormatDay);
-    private static final SimpleDateFormat formatHour = new SimpleDateFormat(dateFormatHour);
+    private static final SimpleDateFormat formatYearMonth = new SimpleDateFormat("yyyy-MM");
+    private static final SimpleDateFormat formatDay = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat formatHour = new SimpleDateFormat("hh");
     // log
     public static Logger logger = Logger.getLogger("main");
 
@@ -56,8 +53,8 @@ public class GenerateDatasetSpark implements Serializable {
         int domainExtractCount = getExtractCount(config.getDomainFactor(), count);
         int urlExtractCount = getExtractCount(config.getUrlFactor(), count);
         RDDAction RDDAction = new RDDAction();
-        SparkConf conf = new SparkConf().setAppName("generateDataset")
-                .setMaster("local");
+        SparkConf conf = new SparkConf().setAppName("generateDataset");
+//                .setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         // 生成高频低频广播变量
         Broadcast<List<String>> sourceIp_h = RDDAction.loadBroadcast(sc, config.getSourceAddressIplbsFile_h(), sourceIpExtractCount);

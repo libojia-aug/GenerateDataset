@@ -17,7 +17,7 @@ public class GenerateDatasetConfigBase implements Serializable {
     private volatile Properties properties = getGenerateDatasetProperties();
 
     public static Properties getGenerateDatasetProperties() {
-        Properties conf1 = new Properties();
+        Properties pro = new Properties();
         try {
 
             Configuration conf = new Configuration();
@@ -27,12 +27,12 @@ public class GenerateDatasetConfigBase implements Serializable {
                 throw new RuntimeException("fail to locate " + parameter.GENERATE_DATASET_CONF_PROPERTIES_PATH + parameter.GENERATE_DATASET_CONF_PROPERTIES_FILE);
             }
             FSDataInputStream is = fs.open(path);
-            conf1.load(is);
+            pro.load(is);
             IOUtils.closeQuietly(is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return conf1;
+        return pro;
     }
 
     final protected String getOptional(String prop) {

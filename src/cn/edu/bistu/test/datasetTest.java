@@ -29,7 +29,6 @@ public class datasetTest {
     private static JavaPairRDD<String, Integer> count(JavaRDD<String> words) {
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Tuple2<String, Integer> call(String s) {
                 return new Tuple2<>(s, 1);
@@ -38,7 +37,6 @@ public class datasetTest {
 
         JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Integer call(Integer i1, Integer i2) {
                 return i1 + i2;
@@ -65,7 +63,6 @@ public class datasetTest {
     private static JavaPairRDD<String, Integer> ipCount(JavaRDD<String> words) {
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Tuple2<String, Integer> call(String s) {
                 return new Tuple2<>(s, 1);
@@ -74,7 +71,6 @@ public class datasetTest {
 
         JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public Integer call(Integer i1, Integer i2) {
                 return i1 + i2;
